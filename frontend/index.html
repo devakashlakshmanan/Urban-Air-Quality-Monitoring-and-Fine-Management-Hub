@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProjectLeap34 — Urban Air Quality & Fine Management Hub</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>🌿 Urban Air Quality & Fine Management Hub</h2>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a class="nav-link active" data-section="dashboard" href="/dashboard">📊 Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" data-section="masters" href="/master-data">🏭 Master Data</a></li>
+            <li class="nav-item"><a class="nav-link" data-section="monitoring" href="/air-monitoring">📡 Air Monitoring</a></li>
+            <li class="nav-item"><a class="nav-link" data-section="violations" href="/violations">⚠️ Violations & Fines</a></li>
+            <li class="nav-item"><a class="nav-link" data-section="invoices" href="/invoices">🧾 Customer Invoices</a></li>
+            <li class="nav-item"><a class="nav-link" data-section="payments" href="/payments">💳 Demo Payments</a></li>
+            <li class="nav-item"><a class="nav-link" data-section="purchases" href="/purchases">📦 Purchases & Bills</a></li>
+            <li class="nav-item"><a class="nav-link" data-section="budgets" href="/budget">💰 Environmental Budget</a></li>
+            <li class="nav-item"><a class="nav-link" data-section="reports" href="/reports">📈 Environmental Reports</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <header class="topbar">
+            <div class="topbar-title">
+                <h1 id="topbar-page-title">Dashboard & System Overview</h1>
+            </div>
+        </header>
+
+        <main class="content-area">
+            <!-- Global Alert Banner -->
+            <div id="alert-banner" class="alert-banner"></div>
+
+            <!-- SECTION 1: DASHBOARD -->
+            <section id="section-dashboard" class="app-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="label">Industrial Plants</div>
+                        <div class="value" id="dash-plants-count">0</div>
+                        <div class="subtext">Registered Facilities</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Air Sensors</div>
+                        <div class="value" id="dash-sensors-count">0</div>
+                        <div class="subtext">Active Monitoring Grid</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Telemetry Records</div>
+                        <div class="value" id="dash-telemetry-count">0</div>
+                        <div class="subtext">IoT Readings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Violations Detected</div>
+                        <div class="value" id="dash-violations-count" style="color: var(--danger-color);">0</div>
+                        <div class="subtext">Threshold Exceeded</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Unpaid Invoices</div>
+                        <div class="value" id="dash-unpaid-invoices" style="color: var(--warning-color);">0</div>
+                        <div class="subtext">Pending Penalties</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Fine Collections</div>
+                        <div class="value" id="dash-fine-collections" style="color: var(--success-color);">₹0</div>
+                        <div class="subtext">Settled Demo Penalties</div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Recent Environmental Violation Alerts</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ticket #</th>
+                                    <th>Zone</th>
+                                    <th>Parameter / Limit</th>
+                                    <th>Penalty</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dash-recent-violations">
+                                <tr>
+                                    <td colspan="5">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: MASTER DATA -->
+            <section id="section-masters" class="app-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-master-tab="tab-plants" data-route="/master-data/industrial-plants">Industrial Plants</button>
+                    <button class="tab-btn" data-master-tab="tab-vendors" data-route="/master-data/sensor-vendors">Sensor Vendors</button>
+                    <button class="tab-btn" data-master-tab="tab-products" data-route="/master-data/compliance-products">Compliance Products</button>
+                    <button class="tab-btn" data-master-tab="tab-accounts" data-route="/master-data/accounts">Chart of Accounts</button>
+                    <button class="tab-btn" data-master-tab="tab-zones" data-route="/master-data/environmental-zones">Environmental Zones</button>
+                    <button class="tab-btn" data-master-tab="tab-sensors" data-route="/master-data/air-sensors">Air Sensors</button>
+                </div>
+
+                <!-- 1. Industrial Plants Tab -->
+                <div id="tab-plants" class="master-tab-content active">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Register Industrial Plant (Customer / Polluter)</h3>
+                        </div>
+                        <form id="plant-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Plant Name *</label>
+                                    <input type="text" id="plant-name" required placeholder="e.g. Apex Power Plant">
+                                </div>
+                                <div class="form-group">
+                                    <label>Plant Code *</label>
+                                    <input type="text" id="plant-code" required placeholder="e.g. PLANT-101">
+                                </div>
+                                <div class="form-group">
+                                    <label>Industry Type</label>
+                                    <input type="text" id="plant-type" placeholder="e.g. Thermal Power / Steel">
+                                </div>
+                                <div class="form-group">
+                                    <label>Environmental Zone</label>
+                                    <select id="plant-zone" class="populate-zones">
+                                        <option value="">Select Zone...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact Person</label>
+                                    <input type="text" id="plant-contact" placeholder="Manager Name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="text" id="plant-phone" placeholder="Contact Phone">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="plant-email" placeholder="compliance@plant.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" id="plant-address" placeholder="Physical Address">
+                                </div>
+                            </div>
+                            <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="plant-active" checked>
+                                <label for="plant-active" style="margin-bottom: 0;">Active Regulatory Facility</label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Industrial Plant</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Registered Industrial Plants</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Plant Name</th>
+                                        <th>Code</th>
+                                        <th>Industry</th>
+                                        <th>Zone</th>
+                                        <th>Contact</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="plants-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Sensor Vendors Tab -->
+                <div id="tab-vendors" class="master-tab-content">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Register Air Sensor Vendor / Manufacturer</h3>
+                        </div>
+                        <form id="vendor-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Vendor Name *</label>
+                                    <input type="text" id="vendor-name" required
+                                        placeholder="e.g. AeroSense Technologies">
+                                </div>
+                                <div class="form-group">
+                                    <label>Vendor Code *</label>
+                                    <input type="text" id="vendor-code" required placeholder="e.g. VEND-202">
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact Person</label>
+                                    <input type="text" id="vendor-contact" placeholder="Sales Engineer">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="text" id="vendor-phone" placeholder="Phone Number">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="vendor-email" placeholder="vendor@sensors.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" id="vendor-address" placeholder="Vendor Office Address">
+                                </div>
+                            </div>
+                            <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="vendor-active" checked>
+                                <label for="vendor-active">Active Vendor</label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Sensor Vendor</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Registered Sensor Vendors</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Vendor Name</th>
+                                        <th>Vendor Code</th>
+                                        <th>Contact</th>
+                                        <th>Phone</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vendors-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Compliance Products Tab -->
+                <div id="tab-products" class="master-tab-content">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Add Compliance Product / Fee Master</h3>
+                        </div>
+                        <form id="product-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Product / Service Name *</label>
+                                    <input type="text" id="product-name" required
+                                        placeholder="e.g. Environmental Violation Penalty">
+                                </div>
+                                <div class="form-group">
+                                    <label>Product Code *</label>
+                                    <input type="text" id="product-code" required placeholder="e.g. PROD-FINE-01">
+                                </div>
+                                <div class="form-group">
+                                    <label>Product Type</label>
+                                    <select id="product-type">
+                                        <option value="SERVICE">SERVICE</option>
+                                        <option value="GOODS">GOODS</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Standard Unit Price (₹) *</label>
+                                    <input type="number" id="product-price" required step="0.01" placeholder="5000.00">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label>Description</label>
+                                    <input type="text" id="product-description"
+                                        placeholder="Regulatory violation penalty fee">
+                                </div>
+                            </div>
+                            <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="product-active" checked>
+                                <label for="product-active">Active Product</label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Product</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Compliance Products & Fees</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Code</th>
+                                        <th>Type</th>
+                                        <th>Unit Price</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="products-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Accounts Tab -->
+                <div id="tab-accounts" class="master-tab-content">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Add Chart of Account</h3>
+                        </div>
+                        <form id="account-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Account Code *</label>
+                                    <input type="text" id="acc-code" required placeholder="e.g. 1000 / 4100 / 5100">
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Name *</label>
+                                    <input type="text" id="acc-name" required
+                                        placeholder="e.g. Environmental Fines Revenue">
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Type *</label>
+                                    <select id="acc-type">
+                                        <option value="ASSET">ASSET (e.g. Cash/Bank, Sensor Grid Assets)</option>
+                                        <option value="LIABILITY">LIABILITY (e.g. Sensor Vendor Creditors)</option>
+                                        <option value="INCOME">INCOME (e.g. Environmental Fines Revenue)</option>
+                                        <option value="EXPENSE">EXPENSE (e.g. Sensor Calibration Expenses)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Opening Balance (₹)</label>
+                                    <input type="number" id="acc-balance" step="0.01" value="0.00">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label>Description</label>
+                                    <input type="text" id="acc-desc" placeholder="Account ledger description">
+                                </div>
+                            </div>
+                            <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="acc-active" checked>
+                                <label for="acc-active">Active Account</label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Account</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Chart of Accounts</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Account Code</th>
+                                        <th>Account Name</th>
+                                        <th>Type</th>
+                                        <th>Balance</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="accounts-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Environmental Zones Tab -->
+                <div id="tab-zones" class="master-tab-content">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Create Environmental Zone & Limits</h3>
+                        </div>
+                        <form id="zone-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Zone Name *</label>
+                                    <input type="text" id="zone-name" required
+                                        placeholder="e.g. Industrial Sector Air Zone 5">
+                                </div>
+                                <div class="form-group">
+                                    <label>Zone Code *</label>
+                                    <input type="text" id="zone-code" required placeholder="e.g. ZONE-05">
+                                </div>
+                                <div class="form-group">
+                                    <label>PM2.5 Limit (µg/m³) *</label>
+                                    <input type="number" id="zone-pm25" required step="0.1" placeholder="100.0">
+                                </div>
+                                <div class="form-group">
+                                    <label>CO2 Limit (ppm)</label>
+                                    <input type="number" id="zone-co2" step="0.1" placeholder="500.0">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label>Description</label>
+                                    <input type="text" id="zone-desc"
+                                        placeholder="Heavy industrial and manufacturing zone">
+                                </div>
+                            </div>
+                            <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="zone-active" checked>
+                                <label for="zone-active">Active Regulatory Zone</label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Environmental Zone</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Environmental Zones</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Zone Name</th>
+                                        <th>Zone Code</th>
+                                        <th>PM2.5 Limit</th>
+                                        <th>CO2 Limit</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="zones-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Air Sensors Tab -->
+                <div id="tab-sensors" class="master-tab-content">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Register Air Quality Sensor</h3>
+                        </div>
+                        <form id="sensor-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Sensor Code *</label>
+                                    <input type="text" id="sensor-code" required placeholder="e.g. SENS-501">
+                                </div>
+                                <div class="form-group">
+                                    <label>Sensor Name *</label>
+                                    <input type="text" id="sensor-name" required
+                                        placeholder="e.g. High Precision PM Sensor">
+                                </div>
+                                <div class="form-group">
+                                    <label>Location *</label>
+                                    <input type="text" id="sensor-location" required
+                                        placeholder="e.g. North Perimeter Chimney">
+                                </div>
+                                <div class="form-group">
+                                    <label>Industrial Plant</label>
+                                    <select id="sensor-plant" class="populate-plants">
+                                        <option value="">Select Plant...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Environmental Zone</label>
+                                    <select id="sensor-zone" class="populate-zones">
+                                        <option value="">Select Zone...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Manufacturer / Vendor</label>
+                                    <select id="sensor-vendor" class="populate-vendors">
+                                        <option value="">Select Vendor...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>PM2.5 Threshold (µg/m³) *</label>
+                                    <input type="number" id="sensor-pm25" required step="0.1" value="100.0">
+                                </div>
+                                <div class="form-group">
+                                    <label>CO2 Threshold (ppm)</label>
+                                    <input type="number" id="sensor-co2" step="0.1" value="500.0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select id="sensor-status">
+                                        <option value="ACTIVE">ACTIVE</option>
+                                        <option value="INACTIVE">INACTIVE</option>
+                                        <option value="CALIBRATION">CALIBRATION</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Installation Date</label>
+                                    <input type="date" id="sensor-date">
+                                </div>
+                            </div>
+                            <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="sensor-active" checked>
+                                <label for="sensor-active">Active Sensor Grid Node</label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Register Sensor</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Deployed Air Quality Sensors</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Location (Zone)</th>
+                                        <th>PM2.5 Limit</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sensors-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: AIR MONITORING & TELEMETRY -->
+            <section id="section-monitoring" class="app-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-sub-tab="monitoring-telemetry" data-route="/air-monitoring/telemetry">IoT Telemetry</button>
+                    <button class="tab-btn" data-sub-tab="monitoring-sensors" data-route="/air-monitoring/sensors">Air Sensors</button>
+                </div>
+
+                <div id="sub-monitoring-telemetry" class="sub-tab-content active">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Simulate IoT Air Telemetry Transmission</h3>
+                        </div>
+                        <form id="telemetry-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Target Sensor *</label>
+                                    <select id="telemetry-sensor-id" required>
+                                        <option value="">Select Sensor...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>PM2.5 Reading (µg/m³) *</label>
+                                    <input type="number" id="telemetry-pm25" required step="0.1"
+                                        placeholder="e.g. 180 (violation) or 80 (normal)">
+                                </div>
+                                <div class="form-group">
+                                    <label>CO2 Reading (ppm)</label>
+                                    <input type="number" id="telemetry-co2" step="0.1" value="450.0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Environmental Zone</label>
+                                    <input type="text" id="telemetry-zone" placeholder="Zone name auto-populated">
+                                </div>
+                                <div class="form-group">
+                                    <label>Timestamp</label>
+                                    <input type="text" id="telemetry-time" placeholder="Auto ISO timestamp">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Transmit Telemetry</button>
+                            </div>
+                        </form>
+
+                        <!-- Real-time Outcome Box -->
+                        <div id="telemetry-outcome" class="outcome-box"></div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Recent Telemetry Stream Logs</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Sensor</th>
+                                        <th>Zone</th>
+                                        <th>PM2.5</th>
+                                        <th>CO2</th>
+                                        <th>Recorded At</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="telemetry-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sub-monitoring-sensors" class="sub-tab-content">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Active Air Quality Sensor Grid</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Sensor Code</th>
+                                        <th>Sensor Name</th>
+                                        <th>Location (Zone)</th>
+                                        <th>PM2.5 Limit</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="monitoring-sensors-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: VIOLATIONS & FINES -->
+            <section id="section-violations" class="app-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-sub-tab="violations-tickets" data-route="/violations/tickets">Violation Tickets</button>
+                    <button class="tab-btn" data-sub-tab="violations-fines" data-route="/violations/fines">Fines & Penalties</button>
+                </div>
+
+                <div id="sub-violations-tickets" class="sub-tab-content active">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Environmental Violation Tickets</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 16px;">
+                            Violation tickets are generated automatically by the backend whenever IoT PM2.5 readings exceed
+                            configured zone limits. Click <strong>Generate Invoice</strong> to issue a formal penalty
+                            notice.
+                        </p>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Ticket #</th>
+                                        <th>Industrial Plant</th>
+                                        <th>Zone</th>
+                                        <th>Parameter</th>
+                                        <th>Measured Value</th>
+                                        <th>Penalty (₹)</th>
+                                        <th>Violation Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="violations-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sub-violations-fines" class="sub-tab-content">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Environmental Fines & Regulatory Penalties Overview</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Ticket #</th>
+                                        <th>Industrial Plant</th>
+                                        <th>Environmental Zone</th>
+                                        <th>Assessed Penalty (₹)</th>
+                                        <th>Violation Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fines-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: INVOICES -->
+            <section id="section-invoices" class="app-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-sub-tab="invoices-customer" data-route="/invoices/customer-invoices">Customer Invoices</button>
+                </div>
+
+                <div id="sub-invoices-customer" class="sub-tab-content active">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Customer Penalty Invoices</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 16px;">
+                            Regulatory penalty invoices issued to offending industrial plants. Unpaid invoices can be
+                            settled via <strong>Pay Fine (Demo)</strong>.
+                        </p>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Invoice #</th>
+                                        <th>Industrial Plant</th>
+                                        <th>Source Ticket</th>
+                                        <th>Issue Date</th>
+                                        <th>Due Date</th>
+                                        <th>Amount (₹)</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="invoices-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: DEMO PAYMENTS -->
+            <section id="section-payments" class="app-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-sub-tab="payments-demo" data-route="/payments/demo-payments">Demo Payments</button>
+                </div>
+
+                <div id="sub-payments-demo" class="sub-tab-content active">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Simulate Fine Payment (Demo Transaction Only)</h3>
+                        </div>
+                    <form id="payment-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Target Unpaid Invoice *</label>
+                                <select id="payment-invoice-id" required>
+                                    <option value="">Select Unpaid Customer Invoice...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Amount (₹) *</label>
+                                <input type="number" id="payment-amount" required step="0.01" placeholder="5000.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Mode</label>
+                                <select id="payment-mode">
+                                    <option value="BANK_TRANSFER">BANK_TRANSFER (Simulated)</option>
+                                    <option value="CASH">CASH (Demo Ledger)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Process Simulated Demo Payment</button>
+                        </div>
+                    </form>
+
+                    <!-- Payment Result Card -->
+                    <div id="payment-result-box" class="outcome-box"></div>
+                </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Demo Fine Payment Ledger History</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Reference #</th>
+                                        <th>Invoice ID</th>
+                                        <th>Payment Date</th>
+                                        <th>Amount (₹)</th>
+                                        <th>Mode</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="payments-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 7: PURCHASES & VENDOR BILLS -->
+            <section id="section-purchases" class="app-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-sub-tab="purchases-orders" data-route="/purchases/orders">Purchase Orders</button>
+                    <button class="tab-btn" data-sub-tab="purchases-bills" data-route="/purchases/vendor-bills">Vendor Bills</button>
+                </div>
+
+                <div id="sub-purchases-orders" class="sub-tab-content active">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Create Purchase Order (Sensor Grid Assets / Maintenance)</h3>
+                        </div>
+                        <form id="po-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Sensor Vendor *</label>
+                                    <select id="po-vendor-id" class="populate-vendors use-id" required>
+                                        <option value="">Select Vendor...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Product / Service *</label>
+                                    <select id="po-product-id" class="populate-products" required>
+                                        <option value="">Select Product...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Quantity *</label>
+                                    <input type="number" id="po-quantity" required min="1" value="1">
+                                </div>
+                                <div class="form-group">
+                                    <label>Total Amount (₹) *</label>
+                                    <input type="number" id="po-amount" required step="0.01"
+                                        placeholder="Calculated from unit price">
+                                </div>
+                                <div class="form-group">
+                                    <label>Order Date</label>
+                                    <input type="date" id="po-date">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Create Purchase Order</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Purchase Orders</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>PO #</th>
+                                        <th>Vendor</th>
+                                        <th>Date</th>
+                                        <th>Qty</th>
+                                        <th>Amount (₹)</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="po-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sub-purchases-bills" class="sub-tab-content">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Vendor Invoices & Bills</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Bill #</th>
+                                        <th>PO Reference</th>
+                                        <th>Vendor</th>
+                                        <th>Bill Date</th>
+                                        <th>Amount (₹)</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bills-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 8: ENVIRONMENTAL BUDGET -->
+            <section id="section-budgets" class="app-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-sub-tab="budget-env" data-route="/budget/environmental-budget">Environmental Budget</button>
+                </div>
+
+                <div id="sub-budget-env" class="sub-tab-content active">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Create Environmental Zone Budget</h3>
+                        </div>
+                        <form id="budget-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Budget Name *</label>
+                                    <input type="text" id="budget-name" required
+                                        placeholder="e.g. Annual Clean Air Zone 5 Budget">
+                                </div>
+                                <div class="form-group">
+                                    <label>Environmental Zone *</label>
+                                    <select id="budget-zone" class="populate-zones" required>
+                                        <option value="">Select Zone...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Allocated Budget Amount (₹) *</label>
+                                    <input type="number" id="budget-amount" required step="0.01" placeholder="500000.00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Actual Expenditure (₹)</label>
+                                    <input type="number" id="budget-expenditure" step="0.01" value="0.00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Fine Collections (₹)</label>
+                                    <input type="number" id="budget-fines" step="0.01" value="0.00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Fiscal Year</label>
+                                    <input type="text" id="budget-year" value="2026-2027">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Budget</button>
+                            </div>
+                        </form>
+
+                        <!-- Budget Report View Box -->
+                        <div id="budget-report-modal" class="outcome-box"></div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Environmental Monitoring Budgets & Variance</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Budget Name</th>
+                                        <th>Zone</th>
+                                        <th>Budget (₹)</th>
+                                        <th>Actual Exp (₹)</th>
+                                        <th>Fines (₹)</th>
+                                        <th>Variance (₹)</th>
+                                        <th>Fiscal Year</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="budgets-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 9: REPORTS -->
+            <section id="section-reports" class="app-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-sub-tab="reports-pl" data-route="/reports/profit-loss">Profit & Loss</button>
+                    <button class="tab-btn" data-sub-tab="reports-bs" data-route="/reports/balance-sheet">Balance Sheet</button>
+                    <button class="tab-btn" data-sub-tab="reports-budget" data-route="/reports/budget">Budget Report</button>
+                </div>
+
+                <div id="sub-reports-pl" class="sub-tab-content active">
+                    <!-- Financial Summary Cards -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>General Ledger & Financial Summary</h3>
+                        </div>
+                        <div class="stats-grid" style="margin-bottom: 0;">
+                            <div class="stat-card">
+                                <div class="label">Environmental Fine Revenue</div>
+                                <div class="value" id="fin-fine-rev" style="color: var(--success-color);">₹0</div>
+                                <div class="subtext">Account #4100</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="label">Licensing Revenue</div>
+                                <div class="value" id="fin-license-rev">₹0</div>
+                                <div class="subtext">Account #4200</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="label">Sensor Calibration Expenses</div>
+                                <div class="value" id="fin-calib-exp" style="color: var(--danger-color);">₹0</div>
+                                <div class="subtext">Account #5100</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="label">Grid Communication Expenses</div>
+                                <div class="value" id="fin-grid-exp" style="color: var(--danger-color);">₹0</div>
+                                <div class="subtext">Account #5200</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zone Air Quality Report -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Air Quality Zone Performance Report</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Zone</th>
+                                        <th>Sensor Count</th>
+                                        <th>Telemetry Count</th>
+                                        <th>Violation Count</th>
+                                        <th>Average PM2.5</th>
+                                        <th>Max PM2.5</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-zone-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sub-reports-bs" class="sub-tab-content">
+                    <!-- Balance Sheet Summary -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Balance Sheet Summary</h3>
+                        </div>
+                        <div class="stats-grid" style="margin-bottom: 0;">
+                            <div class="stat-card">
+                                <div class="label">Total Assets</div>
+                                <div class="value" id="bs-assets" style="color: var(--success-color);">₹0</div>
+                                <div class="subtext">ASSET accounts</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="label">Total Liabilities</div>
+                                <div class="value" id="bs-liabilities" style="color: var(--danger-color);">₹0</div>
+                                <div class="subtext">LIABILITY accounts</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="label">Total Income</div>
+                                <div class="value" id="bs-income" style="color: var(--success-color);">₹0</div>
+                                <div class="subtext">INCOME accounts</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="label">Total Expenses</div>
+                                <div class="value" id="bs-expenses" style="color: var(--danger-color);">₹0</div>
+                                <div class="subtext">EXPENSE accounts</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="label">Net Position</div>
+                                <div class="value" id="bs-net-position">₹0</div>
+                                <div class="subtext">Assets − Liabilities</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sub-reports-budget" class="sub-tab-content">
+                    <!-- Budget Summary Report -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Environmental Budget Variance Report</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Zone</th>
+                                        <th>Budget Name / Fiscal</th>
+                                        <th>Budget (₹)</th>
+                                        <th>Actual Expenditure (₹)</th>
+                                        <th>Fine Collections (₹)</th>
+                                        <th>Net Variance (₹)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-budget-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 10: 404 NOT FOUND -->
+            <section id="section-404" class="app-section">
+                <div class="panel" style="text-align: center; padding: 48px 24px; max-width: 600px; margin: 40px auto;">
+                    <h2 style="font-size: 3.5rem; color: var(--danger-color); margin-bottom: 8px;">404</h2>
+                    <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">Page Not Found</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95rem;">
+                        The requested path <code id="notfound-path" style="background: var(--bg-color); padding: 3px 8px; border-radius: 4px; color: var(--danger-color); font-weight: 600;"></code> does not exist in the system.
+                    </p>
+                    <a class="btn btn-primary" href="/dashboard" onclick="event.preventDefault(); router.navigate('/dashboard');">
+                        ← Return to Dashboard
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/api.js"></script>
+    <script src="/js/router.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/masters.js"></script>
+    <script src="/js/monitoring.js"></script>
+    <script src="/js/violations.js"></script>
+    <script src="/js/invoices.js"></script>
+    <script src="/js/payments.js"></script>
+    <script src="/js/purchases.js"></script>
+    <script src="/js/budgets.js"></script>
+    <script src="/js/reports.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
